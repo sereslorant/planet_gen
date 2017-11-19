@@ -1,0 +1,9 @@
+
+add_executable(WeightTestExec WeightTest.cpp)
+add_executable(ParamTransformationTestExec ParamTransformationTest.cpp)
+add_executable(ParamTransfHeightmapTestExec ParamTransfHeightmapTest.cpp)
+
+enable_testing()
+
+add_test(ParamTransformationTest	ParamTransformationTestExec)
+add_test(ParamTransfHeightmapTest	ParamTransfHeightmapTestExec)

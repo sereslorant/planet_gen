@@ -1,0 +1,11 @@
+
+add_executable(TerrainMergeTestExec TerrainMergeTest.cpp)
+target_link_libraries(TerrainMergeTestExec PlanetLib)
+
+add_executable(TerrainSplitTestExec TerrainSplitTest.cpp)
+target_link_libraries(TerrainSplitTestExec PlanetLib)
+
+enable_testing()
+
+add_test(TerrainMergeTest TerrainMergeTestExec)
+add_test(TerrainSplitTest TerrainSplitTestExec)

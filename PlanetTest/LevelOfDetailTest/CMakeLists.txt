@@ -1,0 +1,15 @@
+
+add_executable(LodNegationTestExec LodNegationTest.cpp)
+target_link_libraries(LodNegationTestExec PlanetLib)
+
+add_executable(LodConjunctionTestExec LodConjunctionTest.cpp)
+target_link_libraries(LodConjunctionTestExec PlanetLib)
+
+add_executable(LodDisjunctionTestExec LodDisjunctionTest.cpp)
+target_link_libraries(LodDisjunctionTestExec PlanetLib)
+
+enable_testing()
+
+add_test(LodNegationTest	LodNegationTestExec)
+add_test(LodConjunctionTest	LodConjunctionTestExec)
+add_test(LodDisjunctionTest	LodDisjunctionTestExec)
