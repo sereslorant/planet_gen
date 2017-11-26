@@ -30,11 +30,11 @@ public:
 			
 			ScaledSurface scale(sphere_patches[(PlanetTerrain::TerrainPosition)i],planet_sphere.GetRadius());
 			
-			HeightmapSurface heightmap_surface(scale,sphere_patches[(PlanetTerrain::TerrainPosition)i],noise_heightmap);
+			//HeightmapSurface heightmap_surface(scale,sphere_patches[(PlanetTerrain::TerrainPosition)i],noise_heightmap);
 			
 			
-			//HeightmapSampler sampler(scale,test_mesh);
-			HeightmapSampler sampler(heightmap_surface,test_mesh);
+			HeightmapSampler sampler(scale,test_mesh);
+			//HeightmapSampler sampler(heightmap_surface,test_mesh);
 			
 			std::function<void(PatchTerrain &)> sample = [&sampler](PatchTerrain &terrain)
 																		{sampler.Sample(terrain);};

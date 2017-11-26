@@ -87,7 +87,14 @@ const char *PbEquationsSource = R"(
 		//float D = TrowbridgeReitzDistribution(Roughness,NormalDotHalfway);
 		float G = SmithVisibilityFunction(Roughness,CameraDotHalfway,LightDotHalfway,CameraDotNormal,LightDotNormal);
 		//
-		return (D * G) / (4.0 * CameraDotNormal);
+		if(CameraDotNormal > 0.0)
+		{
+			return (D * G) / (4.0 * CameraDotNormal);
+		}
+		else
+		{
+			return 1.0;
+		}
 	}
 	//
 	vec3 CalculateNonMetallicContrib(vec3 DiffuseContrib,float Fresnel,float CameraDotHalfway,float SurfaceRoughness,float Reflectiveness)
@@ -157,10 +164,10 @@ const char *FragmentShaderSource = R"(
 		//
 		vec3 HalfwayVector = normalize(CameraDirection + LightDirection);
 		//
-		float CameraDotHalfway = dot(CameraDirection,HalfwayVector);
-		float LightDotHalfway = dot(LightDirection,HalfwayVector);
+		float CameraDotHalfway = max(0.0,dot(CameraDirection,HalfwayVector));
+		float LightDotHalfway = max(0.0,dot(LightDirection,HalfwayVector));
 		//
-		float NormalDotHalfway = dot(fs_normal.xyz,HalfwayVector);
+		float NormalDotHalfway = max(0.0,dot(fs_normal.xyz,HalfwayVector));
 		//
 		/*
 		 * Calculating diffuse
@@ -181,6 +188,7 @@ const char *FragmentShaderSource = R"(
 		vec3 Contrib = NonMetallicContrib * (1.0 - fs_metallic) + MetallicContrib * fs_metallic;
 		//
 		FragColor = vec4(Contrib * Radiance,1.0);
+		//FragColor = vec4(fs_albedo.rgb,1.0);
 		//FragColor = vec4(fs_normal/2.0,1.0);
 		//FragColor = vec4(CameraDirection,1.0);
 		//FragColor = vec4(CameraDotHalfway,CameraDotNormal,0.0,1.0);

@@ -178,7 +178,7 @@ private:
 	
 	void Rendering()
 	{
-		glClearColor(0.5f, 1.0f, 0.0f, 1.0f);
+		glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glViewport(0, 0, ScreenWidth, ScreenHeight);
@@ -213,7 +213,7 @@ public:
 		}
 	}
 	
-	SDL2DemoFramework(int width,int height,IDemo *demo,ICamera *camera,bool gl4 = false,float p_cam_speed = 20.0)
+	SDL2DemoFramework(int width,int height,IDemo *demo,ICamera *camera,int gl_version = 0,float p_cam_speed = 20.0)
 		:ScreenWidth(width),ScreenHeight(height),demo(demo),Camera(camera),camera_speed(p_cam_speed)
 	{
 		SDL_Init(SDL_INIT_EVERYTHING);
@@ -227,7 +227,12 @@ public:
 		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 		
-		if(gl4)
+		if(gl_version == 2)
+		{
+			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+		}
+		else if(gl_version == 1)
 		{
 			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
 			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);

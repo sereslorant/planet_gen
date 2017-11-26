@@ -3,6 +3,8 @@
 
 #include <PlanetLib/Heightmap/IHeightmap.h>
 
+#include <array>
+
 class FractalHeightmap : public IHeightmap
 {
 private:
@@ -27,6 +29,21 @@ private:
 	}};
 	
 public:
+	
+	const vec4 &GetParamOffset()
+	{
+		return param_offset;
+	}
+	
+	const std::array<float,4> &GetFrequency() const
+	{
+		return frequency;
+	}
+	
+	const std::array<float,4> &GetAmplitude() const
+	{
+		return amplitude;
+	}
 	
 	virtual float GetValue(const vec4 &vec) const override
 	{

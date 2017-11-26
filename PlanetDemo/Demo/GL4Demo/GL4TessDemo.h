@@ -204,6 +204,41 @@ public:
 			
 			shader_program.AssignTexture("noise_map",0);
 			
+			shader_program.UploadUniformVector("param_offset[0]",fractals[i].GetParamOffset());
+			
+			const std::array<float,4> &frequency = fractals[i].GetFrequency();
+			shader_program.UploadUniformFloat("frequency[0][0]",frequency[0]);
+			shader_program.UploadUniformFloat("frequency[0][1]",frequency[1]);
+			shader_program.UploadUniformFloat("frequency[0][2]",frequency[2]);
+			shader_program.UploadUniformFloat("frequency[0][3]",frequency[3]);
+			
+			const std::array<float,4> &amplitude = fractals[i].GetAmplitude();
+			shader_program.UploadUniformFloat("amplitude[0][0]",amplitude[0]);
+			shader_program.UploadUniformFloat("amplitude[0][1]",amplitude[1]);
+			shader_program.UploadUniformFloat("amplitude[0][2]",amplitude[2]);
+			shader_program.UploadUniformFloat("amplitude[0][3]",amplitude[3]);
+			
+			for(int j = 0;j < 4;j++)
+			{
+				std::string str_id = std::to_string(j + 1);
+				shader_program.UploadUniformVector("param_offset[" + str_id + "]",std::get<0>(neighbors[i][j])->GetParamOffset());
+				
+				const std::array<float,4> &frequency = std::get<0>(neighbors[i][j])->GetFrequency();
+				shader_program.UploadUniformFloat("frequency[" + str_id + "][0]",frequency[0]);
+				shader_program.UploadUniformFloat("frequency[" + str_id + "][1]",frequency[1]);
+				shader_program.UploadUniformFloat("frequency[" + str_id + "][2]",frequency[2]);
+				shader_program.UploadUniformFloat("frequency[" + str_id + "][3]",frequency[3]);
+				
+				const std::array<float,4> &amplitude = std::get<0>(neighbors[i][j])->GetAmplitude();
+				shader_program.UploadUniformFloat("amplitude[" + str_id + "][0]",amplitude[0]);
+				shader_program.UploadUniformFloat("amplitude[" + str_id + "][1]",amplitude[1]);
+				shader_program.UploadUniformFloat("amplitude[" + str_id + "][2]",amplitude[2]);
+				shader_program.UploadUniformFloat("amplitude[" + str_id + "][3]",amplitude[3]);
+				
+				std::string str_rot_id = std::to_string(j);
+				shader_program.UploadUniformInt("neighbor_rotation[" + str_rot_id + "]",std::get<1>(neighbors[i][j]));
+			}
+			
 			patch_mesh[i].Draw();
 		}
 	}
@@ -219,7 +254,7 @@ public:
 		
 		GLShader pbr_eq_fragment_shader(PbEquationsSource,GL_FRAGMENT_SHADER);
 		GLShader pbr_final_fragment_shader(FragmentShaderSource,GL_FRAGMENT_SHADER);
-		/*
+		 /*
 		GLuint shaders[5] =
 		{
 			vertex_shader.GetShader(),
@@ -230,7 +265,8 @@ public:
 		};
 		
 		shader_program.Initialize(shaders,5);
-		*/
+		// */
+		// /*
 		GLuint shaders[6] =
 		{
 			vertex_shader.GetShader(),
@@ -242,7 +278,7 @@ public:
 		};
 		
 		shader_program.Initialize(shaders,6);
-		
+		// */
 		for(int i=0;i < 6;i++)
 			{patch_mesh[i].Initialize(shader_program);}
 		

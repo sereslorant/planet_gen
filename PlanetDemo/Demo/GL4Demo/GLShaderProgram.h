@@ -65,12 +65,16 @@ public:
 	{
 		GLint uniform_location = glGetUniformLocation(shader_program,uniform_name.c_str());
 		
+		//std::cout << uniform_name << "location: " << uniform_location << std::endl;
+		
 		glUniformMatrix4fv(uniform_location,1,GL_FALSE,matrix.m[0]);
 	}
 	
 	void UploadUniformVector(const std::string &uniform_name,const vec4 &vec)
 	{
 		GLint uniform_location = glGetUniformLocation(shader_program,uniform_name.c_str());
+		
+		//std::cout << uniform_name << "location: " << uniform_location << std::endl;
 		
 		glUniform4fv(uniform_location,1,vec.v);
 	}
@@ -79,7 +83,18 @@ public:
 	{
 		GLint uniform_location = glGetUniformLocation(shader_program,uniform_name.c_str());
 		
+		//std::cout << uniform_name << "location: " << uniform_location << std::endl;
+		
 		glUniform1f(uniform_location,f);
+	}
+	
+	void UploadUniformInt(const std::string &uniform_name,GLint i)
+	{
+		GLint uniform_location = glGetUniformLocation(shader_program,uniform_name.c_str());
+		
+		//std::cout << uniform_name << "location: " << uniform_location << std::endl;
+		
+		glUniform1i(uniform_location,i);
 	}
 	
 	void AssignTexture(const std::string &uniform_name,GLint texture_id)
