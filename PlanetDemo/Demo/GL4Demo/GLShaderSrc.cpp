@@ -76,18 +76,19 @@ const char *tess_eval_sphere_shader_source = R"(
 	uniform float radius;
 	uniform vec4 corners[4];
 	
+	float noise_map_size = 500.0;
 	uniform sampler2D noise_map;
 	
-	float FiniteDiffX(vec4 param)
+	float FiniteDiff(vec4 param,vec4 delta)
 	{
-		return (texture2D(noise_map, param.xy + vec2(0.01,0.0 )).r - texture2D(noise_map, param.xy - vec2(0.01,0.0 )).r)/2.0;
+		return (texture2D(noise_map, param.xy + delta.xy).r - texture2D(noise_map, param.xy - delta.xy).r)/2.0;
 	}
-	
-	float FiniteDiffY(vec4 param)
+	/*
+	float FiniteDiffY(vec4 param,vec4 delta)
 	{
-		return (texture2D(noise_map, param.xy + vec2(0.0 ,0.01)).r - texture2D(noise_map, param.xy - vec2(0.0 ,0.01)).r)/2.0;
+		return (texture2D(noise_map, param.xy + delta.xy).r - texture2D(noise_map, param.xy - delta.xy).r)/2.0;
 	}
-	
+	*/
 	float NoiseValue(vec4 param)
 	{
 		return texture2D(noise_map,param.xy).r;
@@ -105,8 +106,13 @@ const char *tess_eval_sphere_shader_source = R"(
 	
 	uniform int neighbor_rotation[4];
 	
+	//float DIFF_EPSILON = 1e-2;
+	float DIFF_EPSILON = 1.0/500.0;
+	
 	float GetFractalDiffX(int fractal_id,vec4 param)
 	{
+		float diff_epsilon = 1.0/noise_map_size;
+		
 		float sum_amplitude = 0.0;
 		for(int i=0;i < 4;i++)
 		{
@@ -119,7 +125,7 @@ const char *tess_eval_sphere_shader_source = R"(
 			float current_amp = amplitude[fractal_id][i];
 			float current_freq = frequency[fractal_id][i];
 			vec4 current_param_offset = param_offset[fractal_id];
-			diff_x += ((current_amp*current_freq)/sum_amplitude)*FiniteDiffX(current_freq*(param + current_param_offset));
+			diff_x += ((current_amp*current_freq)/sum_amplitude)*FiniteDiff(current_freq*(param + current_param_offset),vec4(diff_epsilon,0.0,0.0,0.0));
 		}
 		
 		return diff_x;
@@ -127,6 +133,8 @@ const char *tess_eval_sphere_shader_source = R"(
 	
 	float GetFractalDiffY(int fractal_id,vec4 param)
 	{
+		float diff_epsilon = 1.0/noise_map_size;
+		
 		float sum_amplitude = 0.0;
 		for(int i=0;i < 4;i++)
 		{
@@ -139,7 +147,7 @@ const char *tess_eval_sphere_shader_source = R"(
 			float current_amp = amplitude[fractal_id][i];
 			float current_freq = frequency[fractal_id][i];
 			vec4 current_param_offset = param_offset[fractal_id];
-			diff_y += ((current_amp*current_freq)/sum_amplitude)*FiniteDiffY(current_freq*(param + current_param_offset));
+			diff_y += ((current_amp*current_freq)/sum_amplitude)*FiniteDiff(current_freq*(param + current_param_offset),vec4(0.0,diff_epsilon,0.0,0.0));
 		}
 		
 		return diff_y;
@@ -576,7 +584,7 @@ const char *tess_eval_sphere_shader_source = R"(
 )";
 
 const char *tess_eval_shader_source = R"(
-	#version 400
+	#version 430
 	
 	layout(quads,equal_spacing,ccw) in;
 	
