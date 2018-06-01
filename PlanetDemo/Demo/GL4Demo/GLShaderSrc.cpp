@@ -83,12 +83,7 @@ const char *tess_eval_sphere_shader_source = R"(
 	{
 		return (texture2D(noise_map, param.xy + delta.xy).r - texture2D(noise_map, param.xy - delta.xy).r)/2.0;
 	}
-	/*
-	float FiniteDiffY(vec4 param,vec4 delta)
-	{
-		return (texture2D(noise_map, param.xy + delta.xy).r - texture2D(noise_map, param.xy - delta.xy).r)/2.0;
-	}
-	*/
+	
 	float NoiseValue(vec4 param)
 	{
 		return texture2D(noise_map,param.xy).r;
@@ -105,9 +100,6 @@ const char *tess_eval_sphere_shader_source = R"(
 	uniform float amplitude[5][4];
 	
 	uniform int neighbor_rotation[4];
-	
-	//float DIFF_EPSILON = 1e-2;
-	float DIFF_EPSILON = 1.0/500.0;
 	
 	float GetFractalDiffX(int fractal_id,vec4 param)
 	{
@@ -343,38 +335,40 @@ const char *tess_eval_sphere_shader_source = R"(
 	vec4 ParamTransform(vec4 param)
 	{
 		float epsilon = 1e-4;
+		//float epsilon = 2e-1;
+		//float epsilon = 0.0;
 		
 		vec2 new_param = param.xy;
 		vec2 result = param.xy;
 		
 		if(new_param.y < 0.0 + epsilon)
-			{new_param.y = 0.0;}
+			{new_param.y = 0.0 + epsilon;}
 		
 		if(new_param.y > 1.0 - epsilon)
-			{new_param.y = 1.0;}
+			{new_param.y = 1.0 - epsilon;}
 		
 		if(new_param.x < 0.0 + epsilon)
-			{new_param.x = 0.0;}
+			{new_param.x = 0.0 + epsilon;}
 		
 		if(new_param.x > 1.0 - epsilon)
-			{new_param.x = 1.0;}
+			{new_param.x = 1.0 - epsilon;}
 		
-		if(new_param.x < 0.0 + epsilon && new_param.y < 0.0 + epsilon)
+		if(param.x < 0.0 + epsilon && param.y < 0.0 + epsilon)
 		{
 			vec2 direction = normalize((1.0 - new_param.y) * normalize(vec2(-1.0,-1.0)) + new_param.y * normalize(vec2(+1.0,-1.0)));
 			result = vec2(0.0,new_param.y) + min(abs(param.x),abs(param.y)) * direction;
 		}
-		else if(new_param.x < 0.0 + epsilon && new_param.y > 1.0 - epsilon)
+		else if(param.x < 0.0 + epsilon && param.y > 1.0 - epsilon)
 		{
 			vec2 direction = normalize((1.0-new_param.x) * normalize(vec2(-1.0,-1.0)) + new_param.x * normalize(vec2(+1.0,-1.0)));
 			result = vec2(new_param.x,0.0) + min(abs(param.x),abs(param.y - 1.0f)) * direction;
 		}
-		else if (new_param.x > 1.0 - epsilon  && new_param.y < 0.0 + epsilon)
+		else if (param.x > 1.0 - epsilon  && param.y < 0.0 + epsilon)
 		{
 			vec2 direction = (1.0 - new_param.y) * normalize(vec2(+1.0,-1.0)) + new_param.y * normalize(vec2(+1.0,+1.0));
 			result = vec2(1.0,new_param.y) + min(abs(param.x - 1.0f),abs(param.y)) * direction;
 		}
-		else if(new_param.x > 1.0 - epsilon  && new_param.y > 1.0 - epsilon)
+		else if(param.x > 1.0 - epsilon  && param.y > 1.0 - epsilon)
 		{
 			vec2 direction = (1.0-new_param.x) * normalize(vec2(-1.0,+1.0)) + new_param.x * normalize(vec2(+1.0,+1.0));
 			result = vec2(new_param.x,1.0) + min(abs(param.x - 1.0),abs(param.y - 1.0)) * direction;
@@ -563,8 +557,8 @@ const char *tess_eval_sphere_shader_source = R"(
 		vec3 dtransf_dx = sphere_jacobian * dnoise_dx;
 		vec3 dtransf_dy = sphere_jacobian * dnoise_dy;
 		
-		//return vec4(normalize(sphere_jacobian*normalize(normal)),1.0);
-		return vec4(normalize(cross(dtransf_dy,dtransf_dx)),1.0);
+		//return vec4(normalize(sphere_jacobian*normalize(normal)),0.0);
+		return vec4(normalize(cross(dtransf_dy,dtransf_dx)),0.0);
 	}
 	
 	vec4 GetPosition(vec4 param)

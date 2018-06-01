@@ -13,7 +13,7 @@
  * http://victorbush.com/2015/01/tessellated-terrain/
  */
 
-#include <PlanetDemo/Camera3D.h>
+#include <DemoFramework/Camera3D.h>
 
 #include <list>
 

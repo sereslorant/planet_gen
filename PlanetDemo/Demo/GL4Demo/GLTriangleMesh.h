@@ -1,7 +1,7 @@
 #ifndef GL_TRIANGLE_MESH_H
 #define GL_TRIANGLE_MESH_H
 
-#include "GLShaderProgram.h"
+#include <DemoFramework/GL4/GLShaderProgram.h>
 
 #include <PlanetLib/MeshGenerator/HeightmapSampler.h>
 

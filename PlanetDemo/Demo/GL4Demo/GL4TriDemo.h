@@ -1,7 +1,7 @@
 #ifndef GL_TRI_DEMO_H
 #define GL_TRI_DEMO_H
 
-#include "GL4DemoBase.h"
+#include "GL4PlanetDemoBase.h"
 
 #include "GLTriangleMesh.h"
 
@@ -9,7 +9,7 @@
 
 #include <PlanetDemo/Demo/DemoUtils.h>
 
-class GL4TriDemo : public GL4DemoBase
+class GL4TriDemo : public GL4PlanetDemoBase
 {
 private:
 	GLShaderProgram shader_program;
@@ -65,7 +65,7 @@ public:
 	}
 	
 	GL4TriDemo(GrayscaleImage &p_noise_image,Camera3D &p_camera)
-		:GL4DemoBase(p_noise_image,p_camera)
+		:GL4PlanetDemoBase(p_noise_image,p_camera)
 	{
 		GLShader vertex_shader(vertex_shader_source,GL_VERTEX_SHADER);
 		GLShader fragment_shader(fragment_shader_source,GL_FRAGMENT_SHADER);

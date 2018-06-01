@@ -87,14 +87,7 @@ const char *PbEquationsSource = R"(
 		//float D = TrowbridgeReitzDistribution(Roughness,NormalDotHalfway);
 		float G = SmithVisibilityFunction(Roughness,CameraDotHalfway,LightDotHalfway,CameraDotNormal,LightDotNormal);
 		//
-		if(CameraDotNormal > 0.0)
-		{
-			return (D * G) / (4.0 * CameraDotNormal);
-		}
-		else
-		{
-			return 1.0;
-		}
+		return (D * G) / (4.0 * CameraDotNormal);
 	}
 	//
 	vec3 CalculateNonMetallicContrib(vec3 DiffuseContrib,float Fresnel,float CameraDotHalfway,float SurfaceRoughness,float Reflectiveness)
@@ -153,21 +146,15 @@ const char *FragmentShaderSource = R"(
 		LightDirection = normalize(LightDirection);
 		vec3 CameraDirection = normalize(CameraPosition.xyz - fs_position.xyz);
 		//
-		float LightDotNormal = max(0.0,dot(LightDirection,fs_normal.xyz));
-		float CameraDotNormal = max(0.0,dot(CameraDirection,fs_normal.xyz));
-		//
-		/*if(LightDotNormal <= 0.0 || CameraDotNormal <= 0.0)
-		{
-			FragColor = vec4(0.0,0.0,0.0,1.0);
-			return;
-		}*/
+		float LightDotNormal = max(1e-4,dot(LightDirection,fs_normal.xyz));
+		float CameraDotNormal = max(1e-4,dot(CameraDirection,fs_normal.xyz));
 		//
 		vec3 HalfwayVector = normalize(CameraDirection + LightDirection);
 		//
-		float CameraDotHalfway = max(0.0,dot(CameraDirection,HalfwayVector));
-		float LightDotHalfway = max(0.0,dot(LightDirection,HalfwayVector));
+		float CameraDotHalfway = max(1e-4,dot(CameraDirection,HalfwayVector));
+		float LightDotHalfway = max(1e-4,dot(LightDirection,HalfwayVector));
 		//
-		float NormalDotHalfway = max(0.0,dot(fs_normal.xyz,HalfwayVector));
+		float NormalDotHalfway = max(1e-4,dot(fs_normal.xyz,HalfwayVector));
 		//
 		/*
 		 * Calculating diffuse

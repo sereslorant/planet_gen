@@ -2,7 +2,7 @@
 #define LOD_MANAGER_H
 
 //TMP!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-#include <PlanetDemo/Camera3D.h>
+#include <DemoFramework/Camera3D.h>
 //TMP!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 #include "ILodStrategy.h"

@@ -3,7 +3,7 @@
 
 #include <SDL2/SDL_opengl.h>
 
-#include <PlanetDemo/Demo/IDemo.h>
+#include <DemoFramework/IDemo.h>
 
 #include <PlanetLib/Heightmap/IParametricSurface.h>
 

@@ -42,7 +42,7 @@ class FractalPlanetDemo : public FFGLDemoBase
 private:
 	ImageHeightmap terrain_heightmap;
 	//CubeHeightmap planet_heightmap;
-	
+	/*
 	FractalHeightmap fractals[6] =
 	{
 		{terrain_heightmap,{+0.0f,+1.0f},std::array<float,4>{{0.5,3.5,5.8,2.4,}},std::array<float,4>{{460,80,150,70,}}},
@@ -51,6 +51,17 @@ private:
 		{terrain_heightmap,{+1.0f,+0.0f},std::array<float,4>{{0.5,3.5,5.8,2.4,}},std::array<float,4>{{460,80,150,70,}}},
 		{terrain_heightmap,{+0.0f,-2.0f},std::array<float,4>{{0.5,3.5,5.8,2.4,}},std::array<float,4>{{460,80,150,70,}}},
 		{terrain_heightmap,{+0.0f,+0.0f},std::array<float,4>{{0.5,3.5,5.8,2.4,}},std::array<float,4>{{460,80,150,70,}}},
+	};
+	*/
+	
+	FractalHeightmap fractals[6] =
+	{
+		{terrain_heightmap,{+0.0f,+1.0f},std::array<float,4>{{0.25,1.35,1.58,0.84,}},std::array<float,4>{{1.0*340,1.0*80,1.0*150,1.0*70,}}},
+		{terrain_heightmap,{+0.0f,-1.0f},std::array<float,4>{{0.25,1.35,1.58,0.84,}},std::array<float,4>{{1.0*340,1.0*80,1.0*150,1.0*70,}}},
+		{terrain_heightmap,{-1.0f,+0.0f},std::array<float,4>{{0.25,1.35,1.58,8.84,}},std::array<float,4>{{1.0*760,1.0*80,1.0*150,1.0*70,}}},
+		{terrain_heightmap,{+1.0f,+0.0f},std::array<float,4>{{0.25,1.35,1.58,3.84,}},std::array<float,4>{{1.0*760,1.0*80,1.0*150,1.0*70,}}},
+		{terrain_heightmap,{+0.0f,-2.0f},std::array<float,4>{{0.25,1.35,1.58,0.84,}},std::array<float,4>{{1.0*760,1.0*80,1.0*150,1.0*70,}}},
+		{terrain_heightmap,{+0.0f,+0.0f},std::array<float,4>{{0.25,1.35,1.58,0.84,}},std::array<float,4>{{1.0*760,1.0*80,1.0*150,1.0*70,}}},
 	};
 	
 	ParamTransformedHeightmap weird_fractals[6] =
@@ -87,7 +98,8 @@ private:
 	
 	PlanetTerrain test_planet_terrain;
 	
-	Sphere test_planet = {{0.0,-14000.0,-28000.0},22000.0};
+	//Sphere test_planet = {{0.0,-14000.0,-28000.0},22000.0};
+	Sphere test_planet = {{0.0,-14000.0,-28000.0},10000.0};
 	
 	LodManager dynamic_lod;
 	

@@ -1,18 +1,10 @@
 #ifndef GL_TRI_DEMO_H
 #define GL_TRI_DEMO_H
 
-#include "GL4DemoBase.h"
+#include "GL4PlanetDemoBase.h"
 
 #include <vector>
 #include <array>
-
-/*
- * 1) Nem gömb terrain (GPU-n)
- * 2) Dinamikus LOD (próbálgatás)
- * 3) PBR beemelése
- * 4) Valami material paraméter gyártás
- * 
- */
 
 struct NeighborData
 {
@@ -141,7 +133,7 @@ public:
 
 #include "GLShaderSrc.h"
 
-class GL4TessDemo : public GL4DemoBase
+class GL4TessDemo : public GL4PlanetDemoBase
 {
 private:
 	GLShaderProgram shader_program;
@@ -244,7 +236,7 @@ public:
 	}
 	
 	GL4TessDemo(GrayscaleImage &p_noise_image,Camera3D &p_camera)
-		:GL4DemoBase(p_noise_image,p_camera)
+		:GL4PlanetDemoBase(p_noise_image,p_camera)
 	{
 		GLShader vertex_shader(tess_vertex_shader_source,GL_VERTEX_SHADER);
 		GLShader ctrl_shader(tess_ctrl_shader_source,GL_TESS_CONTROL_SHADER);

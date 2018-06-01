@@ -1,7 +1,8 @@
-#ifndef GL4DEMO_H
-#define GL4DEMO_H
+#ifndef GL4_PLANET_DEMO_BASE_H
+#define GL4_PLANET_DEMO_BASE_H
 
-#include <PlanetDemo/Demo/IDemo.h>
+#include <DemoFramework/GL4/GL4DemoBase.h>
+#include <DemoFramework/GL4/GLShaderProgram.h>
 
 #include <PlanetLib/PlanetTerrain.h>
 #include <PlanetLib/Heightmap/SpherePatch.h>
@@ -9,14 +10,13 @@
 #include <PlanetLib/Heightmap/Composites/StitchedHeightmap/StitchedHeightmap.h>
 #include <PlanetLib/LevelOfDetail/LodManager.h>
 
-#include "GLShaderProgram.h"
 #include <PlanetDemo/Demo/DemoUtils.h>
 
-
-class GL4DemoBase : public IDemo
+class GL4PlanetDemoBase : public GL4DemoBase
 {
 protected:
 	Sphere planet_sphere = {{0.0,0.0,0.0},1000000};
+	//Sphere planet_sphere = {{0.0,0.0,0.0},15000000};
 	//Sphere planet_sphere = {{0.0,0.0,0.0},22000.0};
 	PlanetTerrain test_planet;
 	
@@ -42,7 +42,17 @@ protected:
 		{terrain_heightmap,{+0.0f,-2.0f},std::array<float,4>{{0.25,1.35,1.58,0.84,}},std::array<float,4>{{1.0*76000,1.0*8000,1.0*15000,1.0*7000,}}},
 		{terrain_heightmap,{+0.0f,+0.0f},std::array<float,4>{{0.25,1.35,1.58,0.84,}},std::array<float,4>{{1.0*76000,1.0*8000,1.0*15000,1.0*7000,}}},
 	};
-	
+	/*
+	FractalHeightmap fractals[6] =
+	{
+		{terrain_heightmap,{+0.0f,+1.0f},std::array<float,4>{{0.25,1.35,1.58,0.84,}},std::array<float,4>{{1.0*340000,1.0*80000,1.0*150000,1.0*70000,}}},
+		{terrain_heightmap,{+0.0f,-1.0f},std::array<float,4>{{0.25,1.35,1.58,0.84,}},std::array<float,4>{{1.0*340000,1.0*80000,1.0*150000,1.0*70000,}}},
+		{terrain_heightmap,{-1.0f,+0.0f},std::array<float,4>{{0.25,1.35,1.58,8.84,}},std::array<float,4>{{1.0*760000,1.0*80000,1.0*150000,1.0*70000,}}},
+		{terrain_heightmap,{+1.0f,+0.0f},std::array<float,4>{{0.25,1.35,1.58,3.84,}},std::array<float,4>{{1.0*760000,1.0*80000,1.0*150000,1.0*70000,}}},
+		{terrain_heightmap,{+0.0f,-2.0f},std::array<float,4>{{0.25,1.35,1.58,0.84,}},std::array<float,4>{{1.0*760000,1.0*80000,1.0*150000,1.0*70000,}}},
+		{terrain_heightmap,{+0.0f,+0.0f},std::array<float,4>{{0.25,1.35,1.58,0.84,}},std::array<float,4>{{1.0*760000,1.0*80000,1.0*150000,1.0*70000,}}},
+	};
+	*/
 	/*
 	FractalHeightmap fractals[6] =
 	{
@@ -117,9 +127,6 @@ protected:
 	
 	LodManager dynamic_lod;
 	
-	mat4 projection_matrix;
-	mat4 view_matrix;
-	
 	vec4 camera_pos;
 	
 	void ApplyLod()
@@ -129,33 +136,19 @@ protected:
 	
 public:
 	
-	virtual void ApplyProjectionTransform() override
-	{
-		projection_matrix = perspective<float>(PI/2.0,1.0,1.0,-200.0);
-	}
-	
 	virtual void ApplyViewTransform(const vec4 &position,float yaw,float pitch) override
 	{
-		mat4 rot_x = rotate_x<float>(pitch);
-		mat4 rot_y = rotate_y<float>(yaw);
-		mat4 move = translate<float>(-1.0 * position);
-		
-		//view_matrix = rot_x * rot_y * move;
-		view_matrix = move * rot_y * rot_x;
+		GL4DemoBase::ApplyViewTransform(position,yaw,pitch);
 		
 		camera_pos = position;
 	}
 	
-	GL4DemoBase(GrayscaleImage &p_noise_image,Camera3D &p_camera)
+	GL4PlanetDemoBase(GrayscaleImage &p_noise_image,Camera3D &p_camera)
 		:noise_image(p_noise_image),terrain_heightmap(p_noise_image),dynamic_lod(p_camera,planet_sphere,sphere_patches,test_planet,8)
-	{
-		GLLoadExtensions();
-		
-		glEnable(GL_DEPTH_TEST);
-	}
+	{}
 	
-	virtual ~GL4DemoBase() override
+	virtual ~GL4PlanetDemoBase() override
 	{}
 };
 
-#endif // GL4DEMO_H
+#endif // GL4_PLANET_DEMO_BASE_H

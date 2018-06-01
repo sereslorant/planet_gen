@@ -94,7 +94,11 @@ public:
 		
 		//std::cout << uniform_name << "location: " << uniform_location << std::endl;
 		
+		//std::cout << glGetError() << std::endl;
+		
 		glUniform1i(uniform_location,i);
+		
+		//std::cout << glGetError() << std::endl;
 	}
 	
 	void AssignTexture(const std::string &uniform_name,GLint texture_id)

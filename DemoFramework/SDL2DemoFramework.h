@@ -1,7 +1,7 @@
 #ifndef SDL2_DEMO_FRAMEWORK_H
 #define SDL2_DEMO_FRAMEWORK_H
 
-#include <PlanetDemo/Demo/IDemo.h>
+#include "IDemo.h"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
@@ -180,7 +180,7 @@ private:
 	{
 		glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+		
 		glViewport(0, 0, ScreenWidth, ScreenHeight);
 		
 		Camera->ApplyProjectionTransform(*demo);

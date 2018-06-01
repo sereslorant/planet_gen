@@ -1,8 +1,8 @@
 
-#include "SDL2DemoFramework.h"
+#include <DemoFramework/SDL2DemoFramework.h>
+#include <DemoFramework/Camera3D.h>
 
 #include <PlanetDemo/Demo/PlanetDemo/PlanetDemo.h>
-#include "Camera3D.h"
 
 int main(int argc,char *argv[])
 {

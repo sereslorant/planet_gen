@@ -1,7 +1,7 @@
 #ifndef CAMERA3D_H
 #define CAMERA3D_H
 
-#include <PlanetDemo/Demo/IDemo.h>
+#include "IDemo.h"
 
 #include <glmath.hpp>
 

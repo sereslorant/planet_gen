@@ -88,6 +88,39 @@ public:
 		return array[y_id * width + x_id];// + x_weight * array[y_id * width + x_next] + y_weight * array[y_next * width + x_id];
 	}
 	
+	/*
+	float GetValue(float x,float y)
+	{
+		float x_idf = x * width;
+		float y_idf = y * height;
+		
+		unsigned int x_id = x * width;
+		unsigned int y_id = y * height;
+		
+		//unsigned int x_id = std::floor(x * width);
+		//unsigned int y_id = std::floor(y * height);
+		
+		float x_weight = x_idf - x_id;
+		float y_weight = y_idf - y_id;
+		
+		if(x_weight < 0.0)
+			{x_weight += 1.0;}
+			
+		if(y_weight < 0.0)
+			{y_weight += 1.0;}
+		
+		x_id %= width;
+		y_id %= height;
+		
+		unsigned int x_next = (x_id + 1) % width;
+		unsigned int y_next = (y_id + 1) % height;
+		
+		float upper_interp = (1.0 - x_weight)*array[y_id * width + x_id] + (x_weight)*array[y_id * width + x_next];
+		float lower_interp = (1.0 - x_weight)*array[y_next * width + x_id] + (x_weight)*array[y_next * width + x_next];
+		
+		return (1.0 - y_weight)*upper_interp + (y_weight)*lower_interp;
+	}
+	*/
 	GrayscaleImage(unsigned int p_width,unsigned int p_height)
 		:width(p_width),height(p_height)
 	{

@@ -16,7 +16,13 @@ include_directories(${SDL2_INCLUDE_DIRS})
 
 include_directories(".")
 
+add_subdirectory(DemoFramework)
+add_subdirectory(Multithreading)
+
 add_subdirectory(PlanetDemo)
 add_subdirectory(PlanetLib)
 add_subdirectory(PlanetTest)
-add_subdirectory(Multithreading)
+
+#add_subdirectory(TerrainDemo)
+#add_subdirectory(TerrainLib)
+#add_subdirectory(TerrainTest)

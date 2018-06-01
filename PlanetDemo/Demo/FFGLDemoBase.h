@@ -1,7 +1,7 @@
 #ifndef FFGL_DEMO_BASE_H
 #define FFGL_DEMO_BASE_H
 
-#include "IDemo.h"
+#include <DemoFramework/IDemo.h>
 
 #include <SDL2/SDL_opengl.h>
 
